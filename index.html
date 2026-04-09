@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Communication Reflex Report | Conversly</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        :root{
+            --void:#000;--deep:#030304;--base:#070709;--surface:#0c0c10;
+            --glass-1:rgba(255,255,255,0.018);--glass-2:rgba(255,255,255,0.035);--glass-3:rgba(255,255,255,0.055);--glass-4:rgba(255,255,255,0.075);--glass-5:rgba(255,255,255,0.1);
+            --border-1:rgba(255,255,255,0.045);--border-2:rgba(255,255,255,0.08);--border-3:rgba(255,255,255,0.12);--border-4:rgba(255,255,255,0.18);
+            --shine-1:rgba(255,255,255,0.06);--shine-2:rgba(255,255,255,0.1);--shine-3:rgba(255,255,255,0.15);
+            --blue-900:#1e3a5f;--blue-700:#1d4ed8;--blue-600:#2563eb;--blue-500:#3b82f6;--blue-400:#60a5fa;--blue-300:#93c5fd;
+            --cyan-500:#06b6d4;--cyan-400:#22d3ee;
+            --emerald-500:#10b981;--emerald-400:#34d399;
+            --amber-500:#f59e0b;--amber-400:#fbbf24;
+            --rose-500:#f43f5e;--rose-400:#fb7185;
+            --text-100:rgba(255,255,255,0.97);--text-85:rgba(255,255,255,0.85);--text-70:rgba(255,255,255,0.7);--text-50:rgba(255,255,255,0.5);--text-35:rgba(255,255,255,0.35);--text-20:rgba(255,255,255,0.2);
+            --font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+            --ease:cubic-bezier(0.25,0.46,0.45,0.94);--ease-out:cubic-bezier(0.16,1,0.3,1);--ease-spring:cubic-bezier(0.34,1.56,0.64,1);
+            --blur-sm:12px;--blur-md:24px;--blur-lg:40px;--blur-xl:60px;
+        }
+        html{height:100%;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+        body{font-family:var(--font);background:var(--void);color:var(--text-100);min-height:100dvh;line-height:1.5;overflow-x:hidden}
+
+        .ambient{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+        .ambient-mesh{position:absolute;inset:-50%;background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(30,58,95,0.15),transparent 60%),radial-gradient(ellipse 60% 40% at 80% 100%,rgba(6,182,212,0.08),transparent 50%),radial-gradient(ellipse 50% 50% at 20% 80%,rgba(37,99,235,0.06),transparent 50%);animation:meshFloat 30s ease-in-out infinite}
+        @keyframes meshFloat{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-2%,2%) scale(1.02)}}
+        .ambient-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.4;mix-blend-mode:screen}
+        .orb-1{width:500px;height:500px;background:radial-gradient(circle,rgba(37,99,235,0.25) 0%,transparent 70%);top:-15%;right:-10%;animation:orb1 20s ease-in-out infinite}
+        .orb-2{width:400px;height:400px;background:radial-gradient(circle,rgba(6,182,212,0.18) 0%,transparent 70%);bottom:-10%;left:-8%;animation:orb2 25s ease-in-out infinite}
+        .orb-3{width:300px;height:300px;background:radial-gradient(circle,rgba(96,165,250,0.12) 0%,transparent 70%);top:40%;left:60%;animation:orb3 22s ease-in-out infinite}
+        @keyframes orb1{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,30px)}}
+        @keyframes orb2{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-25px)}}
+        @keyframes orb3{0%,100%{transform:translate(0,0)}50%{transform:translate(-20px,35px)}}
+        .ambient-noise{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:0.018}
+        .ambient-vignette{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 50%,transparent 0%,rgba(0,0,0,0.4) 100%)}
+
+        .glass{background:linear-gradient(135deg,var(--glass-2) 0%,var(--glass-1) 100%);border:1px solid var(--border-2);border-radius:20px;backdrop-filter:blur(var(--blur-lg)) saturate(180%);-webkit-backdrop-filter:blur(var(--blur-lg)) saturate(180%);box-shadow:0 1px 1px 0 var(--shine-2) inset,0 -1px 1px 0 rgba(0,0,0,0.1) inset,0 0 0 1px var(--glass-1) inset,0 20px 40px -15px rgba(0,0,0,0.5),0 0 1px 0 rgba(255,255,255,0.05);position:relative}
+        .glass::before{content:'';position:absolute;top:0;left:16px;right:16px;height:1px;background:linear-gradient(90deg,transparent 0%,var(--shine-2) 20%,var(--shine-3) 50%,var(--shine-2) 80%,transparent 100%);pointer-events:none}
+        .glass::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,0.02) 0%,transparent 40%);pointer-events:none}
+        .glass-card{background:linear-gradient(145deg,var(--glass-3) 0%,var(--glass-1) 50%,var(--glass-2) 100%);border:1px solid var(--border-2);border-radius:24px;backdrop-filter:blur(var(--blur-xl)) saturate(200%);-webkit-backdrop-filter:blur(var(--blur-xl)) saturate(200%);box-shadow:0 1px 1px 0 var(--shine-2) inset,0 0 0 1px var(--glass-1) inset,0 25px 50px -12px rgba(0,0,0,0.6),0 0 80px -20px rgba(37,99,235,0.1);position:relative;overflow:hidden}
+        .glass-card::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--shine-3),transparent);pointer-events:none}
+        .glass-subtle{background:var(--glass-1);border:1px solid var(--border-1);border-radius:14px;backdrop-filter:blur(var(--blur-md));-webkit-backdrop-filter:blur(var(--blur-md));box-shadow:0 1px 0 0 var(--shine-1) inset}
+        .glass-pill{background:linear-gradient(135deg,var(--glass-3) 0%,var(--glass-2) 100%);border:1px solid var(--border-2);border-radius:100px;backdrop-filter:blur(var(--blur-md));-webkit-backdrop-filter:blur(var(--blur-md));box-shadow:0 1px 0 0 var(--shine-1) inset,0 4px 12px -4px rgba(0,0,0,0.3)}
+
+        .app{position:relative;z-index:1;max-width:460px;margin:0 auto;padding:16px;min-height:100dvh;display:flex;flex-direction:column}
+        .topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;margin-bottom:18px}
+        .topbar-brand{font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-35)}
+        .topbar-brand b{background:linear-gradient(135deg,var(--blue-400),var(--cyan-400));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700}
+        .topbar-score{display:flex;align-items:baseline;gap:5px;padding:8px 14px;background:var(--glass-2);border:1px solid var(--border-1);border-radius:10px}
+        .topbar-pts{font-size:18px;font-weight:700;background:linear-gradient(135deg,var(--text-100),var(--blue-300));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .topbar-label{font-size:10px;font-weight:500;color:var(--text-35);letter-spacing:0.05em}
+
+        .screen{display:none;flex-direction:column;flex:1}
+        .screen.active{display:flex;animation:screenIn 0.6s var(--ease-out)}
+        @keyframes screenIn{from{opacity:0;transform:translateY(20px) scale(0.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+        .intro{flex:1;display:flex;flex-direction:column;justify-content:center;padding:10px 0 30px}
+        .intro-badge{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;margin-bottom:28px;width:fit-content}
+        .intro-badge svg{width:14px;height:14px;color:var(--cyan-400)}
+        .intro-badge span{font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;background:linear-gradient(135deg,var(--blue-300),var(--cyan-400));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .intro-title{font-size:clamp(38px,10vw,54px);font-weight:700;line-height:1.05;letter-spacing:-0.045em;margin-bottom:22px}
+        .intro-title .line{display:block;text-shadow:0 0 80px rgba(255,255,255,0.08)}
+        .intro-title .gradient{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:500;background:linear-gradient(135deg,var(--blue-400) 0%,var(--cyan-400) 50%,var(--blue-300) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% 200%;animation:shimmer 8s ease-in-out infinite;filter:drop-shadow(0 0 30px rgba(96,165,250,0.3))}
+        @keyframes shimmer{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+        .intro-desc{font-size:15px;color:var(--text-50);line-height:1.65;margin-bottom:32px;max-width:360px}
+        .stat-card{display:flex;align-items:center;gap:16px;padding:18px 20px;margin-bottom:32px}
+        .stat-icon{width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(244,63,94,0.15),rgba(244,63,94,0.05));border:1px solid rgba(244,63,94,0.2);border-radius:14px;flex-shrink:0}
+        .stat-icon svg{width:22px;height:22px;color:var(--rose-400)}
+        .stat-text{font-size:13px;color:var(--text-50);line-height:1.55}
+        .stat-text strong{color:var(--rose-400);font-weight:600}
+        .dims-section{margin-bottom:36px}
+        .dims-label{font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-20);margin-bottom:14px}
+        .dims-grid{display:flex;flex-wrap:wrap;gap:8px}
+        .dim-chip{padding:10px 15px;font-size:11px;font-weight:500;color:var(--text-50)}
+
+        .btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:17px 30px;border:none;border-radius:16px;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;transition:all 0.4s var(--ease);position:relative;overflow:hidden}
+        .btn::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0.1) 0%,transparent 50%);pointer-events:none}
+        .btn-primary{background:linear-gradient(135deg,var(--blue-600) 0%,var(--blue-700) 100%);color:white;box-shadow:0 1px 0 0 rgba(255,255,255,0.15) inset,0 -1px 0 0 rgba(0,0,0,0.1) inset,0 10px 30px -8px rgba(37,99,235,0.5),0 0 0 1px rgba(37,99,235,0.2)}
+        .btn-primary:hover{transform:translateY(-3px);box-shadow:0 1px 0 0 rgba(255,255,255,0.2) inset,0 16px 40px -8px rgba(37,99,235,0.6)}
+        .btn-secondary{background:var(--glass-3);border:1px solid var(--border-2);color:var(--text-70);backdrop-filter:blur(var(--blur-md))}
+        .btn-secondary:hover{background:var(--glass-4);border-color:var(--border-3)}
+        .btn-full{width:100%}
+        .btn svg{width:18px;height:18px}
+
+        .game-header{margin-bottom:16px}
+        .progress-info{display:flex;justify-content:space-between;margin-bottom:10px}
+        .progress-label{font-size:11px;font-weight:600;color:var(--text-35)}
+        .progress-track{height:5px;background:var(--glass-3);border-radius:3px;overflow:hidden}
+        .progress-fill{height:100%;background:linear-gradient(90deg,var(--blue-600),var(--blue-400));border-radius:3px;transition:width 0.5s var(--ease-out);box-shadow:0 0 12px rgba(59,130,246,0.5)}
+        .timer-section{padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:14px}
+        .timer-icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:var(--glass-3);border:1px solid var(--border-1);border-radius:10px}
+        .timer-icon svg{width:17px;height:17px;color:var(--text-50)}
+        .timer-bar-wrap{flex:1}
+        .timer-bar{height:7px;background:var(--glass-3);border-radius:4px;overflow:hidden}
+        .timer-fill{height:100%;background:linear-gradient(90deg,var(--blue-600),var(--blue-400));border-radius:4px;transition:width 0.1s linear;box-shadow:0 0 16px rgba(59,130,246,0.6)}
+        .timer-fill.warn{background:linear-gradient(90deg,var(--amber-500),var(--amber-400));box-shadow:0 0 16px rgba(245,158,11,0.6)}
+        .timer-fill.danger{background:linear-gradient(90deg,var(--rose-500),var(--rose-400));box-shadow:0 0 20px rgba(244,63,94,0.7);animation:pulse 0.35s ease-in-out infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+        .timer-text{font-size:13px;font-weight:700;color:var(--text-35);min-width:34px;text-align:right}
+
+        .scenario-section{padding:24px;margin-bottom:16px}
+        .scenario-ctx{display:inline-flex;align-items:center;gap:9px;padding:9px 15px;background:linear-gradient(135deg,rgba(6,182,212,0.12),rgba(6,182,212,0.04));border:1px solid rgba(6,182,212,0.18);border-radius:100px;margin-bottom:18px}
+        .scenario-ctx svg{width:12px;height:12px;color:var(--cyan-400)}
+        .scenario-ctx span{font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan-400)}
+        .scenario-text{font-size:15px;line-height:1.7;color:var(--text-70)}
+        .scenario-text b{color:var(--text-100);font-weight:600}
+
+        .answers-wrap{display:flex;flex-direction:column;gap:10px;position:relative;z-index:10}
+        .answer{position:relative;z-index:11;display:flex;align-items:flex-start;gap:14px;width:100%;padding:16px 18px;background:linear-gradient(135deg,var(--glass-2) 0%,var(--glass-1) 100%);border:1px solid var(--border-1);border-radius:16px;backdrop-filter:blur(var(--blur-lg));-webkit-backdrop-filter:blur(var(--blur-lg));font-family:var(--font);text-align:left;cursor:pointer;transition:all 0.3s var(--ease);-webkit-tap-highlight-color:transparent;touch-action:manipulation;box-shadow:0 1px 0 0 var(--shine-1) inset,0 4px 16px -6px rgba(0,0,0,0.3)}
+        .answer::before{content:'';position:absolute;top:0;left:14px;right:14px;height:1px;background:linear-gradient(90deg,transparent,var(--shine-1),transparent);pointer-events:none}
+        .answer:hover:not(.locked){background:var(--glass-4);border-color:var(--border-3);transform:translateY(-2px) scale(1.01)}
+        .answer:active:not(.locked){transform:scale(0.985)}
+        .answer-letter{width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:var(--glass-3);border:1px solid var(--border-2);border-radius:9px;font-size:11px;font-weight:700;color:var(--text-35);flex-shrink:0;transition:all 0.3s var(--ease)}
+        .answer:hover:not(.locked) .answer-letter{background:var(--glass-5);color:var(--text-50)}
+        .answer-content{flex:1}
+        .answer-text{font-size:13px;line-height:1.6;color:var(--text-70);display:block;pointer-events:none}
+        .answer-pts{font-size:12px;font-weight:700;opacity:0;margin-top:8px;display:block;pointer-events:none;transition:opacity 0.3s}
+        .answer.revealed .answer-pts{opacity:1}
+        .answer.selected{border-color:var(--blue-400);background:linear-gradient(135deg,rgba(59,130,246,0.12),rgba(59,130,246,0.04))}
+        .answer.selected .answer-letter{background:linear-gradient(135deg,var(--blue-600),var(--blue-500));border-color:var(--blue-400);color:white}
+        .answer.revealed,.answer.locked{pointer-events:none}
+        .answer.revealed.best{border-color:var(--emerald-400);background:linear-gradient(135deg,rgba(16,185,129,0.12),rgba(16,185,129,0.04))}
+        .answer.revealed.best .answer-pts{color:var(--emerald-400)}
+        .answer.revealed.best .answer-letter{background:linear-gradient(135deg,var(--emerald-500),var(--emerald-400));border-color:var(--emerald-400);color:white}
+        .answer.revealed.good{border-color:var(--blue-400);background:linear-gradient(135deg,rgba(59,130,246,0.08),rgba(59,130,246,0.02))}
+        .answer.revealed.good .answer-pts{color:var(--blue-400)}
+        .answer.revealed.ok{border-color:var(--amber-400);background:linear-gradient(135deg,rgba(245,158,11,0.08),rgba(245,158,11,0.02))}
+        .answer.revealed.ok .answer-pts{color:var(--amber-400)}
+        .answer.revealed.weak{border-color:var(--border-2);opacity:0.55}
+        .answer.revealed.weak .answer-pts{color:var(--text-35)}
+        .answer span,.answer *{pointer-events:none !important}
+
+        .custom-section{margin-top:12px}
+        .custom-toggle{width:100%;padding:15px;background:transparent;border:1px dashed var(--border-2);border-radius:14px;font-family:var(--font);font-size:12px;font-weight:500;color:var(--text-35);cursor:pointer;transition:all 0.3s var(--ease);display:flex;align-items:center;justify-content:center;gap:8px}
+        .custom-toggle:hover{background:var(--glass-1);border-color:var(--border-3);color:var(--text-50)}
+        .custom-toggle svg{width:15px;height:15px}
+        .custom-form{display:none;flex-direction:column;gap:12px}
+        .custom-form.show{display:flex}
+        .custom-textarea{width:100%;min-height:85px;padding:16px;background:var(--glass-2);border:1px solid var(--border-2);border-radius:14px;font-family:var(--font);font-size:13px;line-height:1.55;color:var(--text-100);resize:vertical;transition:all 0.3s var(--ease)}
+        .custom-textarea:focus{outline:none;border-color:var(--blue-400);box-shadow:0 0 0 4px rgba(59,130,246,0.1)}
+        .custom-textarea::placeholder{color:var(--text-20)}
+        .custom-submit{padding:14px 20px;background:var(--glass-3);border:1px solid var(--border-2);border-radius:12px;font-family:var(--font);font-size:13px;font-weight:600;color:var(--text-70);cursor:pointer;transition:all 0.3s var(--ease)}
+        .custom-submit:hover{background:var(--glass-4)}
+
+        .feedback-bg{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(12px);z-index:200;opacity:0;visibility:hidden;pointer-events:none;transition:all 0.35s var(--ease)}
+        .feedback-bg.show{opacity:1;visibility:visible;pointer-events:auto}
+        .feedback-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.85);padding:36px 40px;text-align:center;z-index:201;min-width:240px;opacity:0;visibility:hidden;pointer-events:none;transition:all 0.45s var(--ease-spring)}
+        .feedback-modal.show{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
+        .fb-icon{width:64px;height:64px;margin:0 auto 18px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+        .fb-icon.excellent{background:linear-gradient(135deg,var(--emerald-500),var(--emerald-400));box-shadow:0 0 50px rgba(16,185,129,0.5)}
+        .fb-icon.good{background:linear-gradient(135deg,var(--blue-600),var(--blue-400));box-shadow:0 0 50px rgba(59,130,246,0.5)}
+        .fb-icon.ok{background:linear-gradient(135deg,var(--amber-500),var(--amber-400));box-shadow:0 0 50px rgba(245,158,11,0.5)}
+        .fb-icon.weak{background:linear-gradient(135deg,var(--rose-500),var(--rose-400));box-shadow:0 0 50px rgba(244,63,94,0.5)}
+        .fb-icon svg{width:28px;height:28px;color:white}
+        .fb-title{font-size:20px;font-weight:700;margin-bottom:6px}
+        .fb-title.excellent{color:var(--emerald-400)}
+        .fb-title.good{color:var(--blue-400)}
+        .fb-title.ok{color:var(--amber-400)}
+        .fb-title.weak{color:var(--rose-400)}
+        .fb-pts{font-size:32px;font-weight:700;background:linear-gradient(135deg,var(--text-100),var(--blue-300));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
+        .fb-sub{font-size:12px;color:var(--text-35)}
+
+        .streak{position:fixed;top:80px;right:16px;display:flex;align-items:center;gap:7px;padding:11px 18px;background:linear-gradient(135deg,var(--amber-500),var(--amber-400));border-radius:100px;font-size:14px;font-weight:700;color:var(--void);box-shadow:0 1px 0 0 rgba(255,255,255,0.3) inset,0 6px 24px rgba(245,158,11,0.5);z-index:100;transform:scale(0);pointer-events:none;transition:transform 0.4s var(--ease-spring)}
+        .streak.show{transform:scale(1)}
+        .streak svg{width:16px;height:16px}
+
+        .inter{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:30px 0}
+        .inter-badge{display:inline-flex;align-items:center;gap:9px;padding:11px 17px;margin-bottom:30px}
+        .inter-badge svg{width:14px;height:14px;color:var(--blue-400)}
+        .inter-badge span{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:linear-gradient(135deg,var(--blue-400),var(--cyan-400));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .inter-stat{font-size:clamp(52px,15vw,76px);font-weight:700;letter-spacing:-0.04em;background:linear-gradient(135deg,var(--text-100),var(--blue-300));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:14px}
+        .inter-head{font-size:17px;font-weight:600;color:var(--text-100);margin-bottom:10px;max-width:300px;line-height:1.4}
+        .inter-body{font-size:13px;color:var(--text-35);line-height:1.6;max-width:320px;margin-bottom:34px}
+        .inter-chart{width:100%;max-width:300px;padding:22px;margin-bottom:30px}
+        .bar-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+        .bar-row:last-child{margin-bottom:0}
+        .bar-label{width:90px;font-size:10px;color:var(--text-35);text-align:right;font-weight:500}
+        .bar-track{flex:1;height:20px;background:var(--glass-3);border-radius:6px;overflow:hidden;position:relative}
+        .bar-fill{height:100%;border-radius:6px;transition:width 1.2s var(--ease-out)}
+        .bar-fill.blue{background:linear-gradient(90deg,var(--blue-600),var(--blue-400))}
+        .bar-fill.amber{background:linear-gradient(90deg,var(--amber-500),var(--amber-400))}
+        .bar-val{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:10px;font-weight:700;color:white}
+
+        .results{padding:16px 0}
+        .results-head{text-align:center;margin-bottom:28px}
+        .score-ring{width:170px;height:170px;margin:0 auto 24px;position:relative}
+        .score-ring svg{transform:rotate(-90deg)}
+        .ring-bg{fill:none;stroke:var(--glass-3);stroke-width:8}
+        .ring-fill{fill:none;stroke:url(#ringGrad);stroke-width:8;stroke-linecap:round;stroke-dasharray:440;stroke-dashoffset:440;transition:stroke-dashoffset 1.8s var(--ease-out);filter:drop-shadow(0 0 16px rgba(37,99,235,0.6))}
+        .score-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+        .score-num{font-size:44px;font-weight:700;background:linear-gradient(135deg,var(--text-100),var(--blue-300));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+        .score-of{font-size:11px;color:var(--text-20)}
+        .score-tier{font-size:18px;font-weight:700;background:linear-gradient(135deg,var(--text-100),var(--blue-300));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:5px}
+        .score-desc{font-size:13px;color:var(--text-35)}
+
+        .skills-section{padding:24px;margin-bottom:18px}
+        .skills-label{font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-20);margin-bottom:20px}
+        .skill-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+        .skill-row:last-child{margin-bottom:0}
+        .skill-name{width:105px;font-size:11px;color:var(--text-35);font-weight:500}
+        .skill-track{flex:1;height:7px;background:var(--glass-3);border-radius:4px;overflow:hidden}
+        .skill-fill{height:100%;border-radius:4px;transition:width 1.2s var(--ease-out)}
+        .skill-fill.high{background:linear-gradient(90deg,var(--emerald-500),var(--emerald-400))}
+        .skill-fill.mid{background:linear-gradient(90deg,var(--amber-500),var(--amber-400))}
+        .skill-fill.low{background:linear-gradient(90deg,var(--rose-500),var(--rose-400))}
+        .skill-val{width:40px;text-align:right;font-size:12px;font-weight:700;color:var(--text-50)}
+
+        .insight-section{padding:24px;background:linear-gradient(135deg,rgba(37,99,235,0.08),rgba(6,182,212,0.04));border:1px solid rgba(37,99,235,0.15);border-radius:20px;margin-bottom:18px;position:relative;overflow:hidden}
+        .insight-section::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(59,130,246,0.3),transparent)}
+        .insight-head{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+        .insight-icon{width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--blue-600),var(--blue-700));border-radius:12px;box-shadow:0 4px 16px -4px rgba(37,99,235,0.5)}
+        .insight-icon svg{width:20px;height:20px;color:white}
+        .insight-label{font-size:14px;font-weight:600;color:var(--text-100)}
+        .insight-text{font-size:13px;color:var(--text-50);line-height:1.65}
+
+        /* ═══════════════ PRICING SECTION ═══════════════ */
+        .pricing-section{padding:24px 0;margin-bottom:18px}
+        .pricing-header{text-align:center;margin-bottom:24px}
+        .pricing-title{font-size:20px;font-weight:700;background:linear-gradient(135deg,var(--text-100),var(--blue-300));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+        .pricing-sub{font-size:13px;color:var(--text-35);line-height:1.5}
+        .pricing-cards{display:flex;flex-direction:column;gap:16px}
+        
+        .plan-card{padding:24px;position:relative;transition:all 0.3s var(--ease)}
+        .plan-card:hover{transform:translateY(-4px)}
+        .plan-card.featured{border-color:var(--blue-400);background:linear-gradient(145deg,rgba(37,99,235,0.12) 0%,var(--glass-1) 50%,var(--glass-2) 100%);margin-top:16px;overflow:visible}
+        .plan-card.featured::before{background:linear-gradient(90deg,transparent,rgba(59,130,246,0.4),transparent)}
+        
+        .plan-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:linear-gradient(135deg,var(--blue-600),var(--cyan-500));border-radius:100px;font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:white;box-shadow:0 4px 16px -4px rgba(37,99,235,0.5)}
+        .plan-badge svg{width:10px;height:10px}
+        
+        .plan-name{font-size:18px;font-weight:700;color:var(--text-100);margin-bottom:4px}
+        .plan-tagline{font-size:12px;color:var(--text-35);margin-bottom:16px}
+        
+        .plan-price{display:flex;align-items:baseline;gap:4px;margin-bottom:20px}
+        .plan-amount{font-size:36px;font-weight:700;background:linear-gradient(135deg,var(--text-100),var(--blue-300));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .plan-period{font-size:13px;color:var(--text-35)}
+        
+        .plan-features{list-style:none;margin-bottom:24px}
+        .plan-features li{display:flex;align-items:flex-start;gap:10px;font-size:12px;color:var(--text-50);line-height:1.5;margin-bottom:10px}
+        .plan-features li:last-child{margin-bottom:0}
+        .plan-features li::before{content:'';width:16px;height:16px;flex-shrink:0;margin-top:2px;background:linear-gradient(135deg,var(--blue-500),var(--cyan-400));border-radius:50%;display:flex;align-items:center;justify-content:center;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");background-size:10px;background-repeat:no-repeat;background-position:center}
+        
+        .plan-btn{width:100%;padding:15px 24px;border:none;border-radius:14px;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;transition:all 0.3s var(--ease);display:flex;align-items:center;justify-content:center;gap:8px}
+        .plan-btn svg{width:16px;height:16px}
+        .plan-btn-secondary{background:var(--glass-4);border:1px solid var(--border-2);color:var(--text-85)}
+        .plan-btn-secondary:hover{background:var(--glass-5);border-color:var(--border-3)}
+        .plan-btn-primary{background:linear-gradient(135deg,var(--blue-600),var(--blue-700));color:white;box-shadow:0 1px 0 0 rgba(255,255,255,0.15) inset,0 8px 24px -8px rgba(37,99,235,0.5)}
+        .plan-btn-primary:hover{transform:translateY(-2px);box-shadow:0 1px 0 0 rgba(255,255,255,0.2) inset,0 12px 32px -8px rgba(37,99,235,0.6)}
+
+        /* ═══════════════ STORE MODAL ═══════════════ */
+        .store-modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(16px);z-index:300;opacity:0;visibility:hidden;pointer-events:none;transition:all 0.35s var(--ease)}
+        .store-modal-bg.show{opacity:1;visibility:visible;pointer-events:auto}
+        .store-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.9);width:calc(100% - 32px);max-width:360px;padding:32px 28px;z-index:301;opacity:0;visibility:hidden;pointer-events:none;transition:all 0.45s var(--ease-spring)}
+        .store-modal.show{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1);pointer-events:auto}
+        .store-modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:var(--glass-3);border:1px solid var(--border-1);border-radius:8px;cursor:pointer;transition:all 0.2s}
+        .store-modal-close:hover{background:var(--glass-4)}
+        .store-modal-close svg{width:16px;height:16px;color:var(--text-50)}
+        .store-modal-title{font-size:18px;font-weight:700;color:var(--text-100);text-align:center;margin-bottom:8px}
+        .store-modal-plan{font-size:13px;color:var(--blue-400);text-align:center;margin-bottom:24px;font-weight:600}
+        .store-btns{display:flex;flex-direction:column;gap:12px}
+        .store-btn{display:flex;align-items:center;gap:14px;padding:16px 20px;background:var(--glass-2);border:1px solid var(--border-2);border-radius:14px;text-decoration:none;color:var(--text-100);transition:all 0.3s var(--ease)}
+        .store-btn:hover{background:var(--glass-4);border-color:var(--border-3);transform:translateY(-2px)}
+        .store-btn-icon{width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:white;border-radius:10px;flex-shrink:0}
+        .store-btn-icon svg{width:24px;height:24px;color:var(--void)}
+        .store-btn-text{flex:1}
+        .store-btn-label{font-size:10px;color:var(--text-35);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
+        .store-btn-name{font-size:15px;font-weight:600}
+        .store-btn-arrow{width:20px;height:20px;color:var(--text-35)}
+
+        .share-section{text-align:center;padding:20px 0;border-top:1px solid var(--border-1);margin-top:8px}
+        .share-btn-link{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;background:var(--glass-2);border:1px solid var(--border-1);border-radius:10px;font-size:12px;font-weight:500;color:var(--text-50);cursor:pointer;transition:all 0.3s}
+        .share-btn-link:hover{background:var(--glass-3);border-color:var(--border-2);color:var(--text-70)}
+        .share-btn-link svg{width:14px;height:14px}
+
+        .footer-links{display:flex;justify-content:center;gap:24px;padding-top:18px}
+        .footer-link{font-size:11px;color:var(--text-20);text-decoration:none;font-weight:500;transition:color 0.2s}
+        .footer-link:hover{color:var(--text-50)}
+
+        @media(max-width:400px){.skill-name{width:85px;font-size:10px}}
+    </style>
+</head>
+<body>
+    <div class="ambient"><div class="ambient-mesh"></div><div class="ambient-orb orb-1"></div><div class="ambient-orb orb-2"></div><div class="ambient-orb orb-3"></div><div class="ambient-noise"></div><div class="ambient-vignette"></div></div>
+    <div class="streak" id="streak"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg><span id="streakNum">2</span>x</div>
+    <div class="feedback-bg" id="fbBg"></div>
+    <div class="feedback-modal glass-card" id="fbModal"><div class="fb-icon" id="fbIcon"></div><div class="fb-title" id="fbTitle">Nice</div><div class="fb-pts" id="fbPts">+78</div><div class="fb-sub" id="fbSub">Solid</div></div>
+    
+    <!-- Store Selection Modal -->
+    <div class="store-modal-bg" id="storeModalBg" onclick="closeStoreModal()"></div>
+    <div class="store-modal glass-card" id="storeModal">
+        <button class="store-modal-close" onclick="closeStoreModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+        <div class="store-modal-title">Download Conversly</div>
+        <div class="store-modal-plan" id="storeModalPlan">Starter Plan Selected</div>
+        <div class="store-btns">
+            <a href="https://apps.apple.com/app/conversly-communication-gym/id6753739129" target="_blank" class="store-btn">
+                <div class="store-btn-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg></div>
+                <div class="store-btn-text"><div class="store-btn-label">Download on the</div><div class="store-btn-name">App Store</div></div>
+                <svg class="store-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.conversly.app" target="_blank" class="store-btn">
+                <div class="store-btn-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/></svg></div>
+                <div class="store-btn-text"><div class="store-btn-label">Get it on</div><div class="store-btn-name">Google Play</div></div>
+                <svg class="store-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+    </div>
+
+    <div class="app">
+        <div class="topbar glass"><div class="topbar-brand"><b>Conversly</b> Reflex Report</div><div class="topbar-score" id="topScore" style="display:none"><span class="topbar-pts" id="topPts">0</span><span class="topbar-label">pts</span></div></div>
+        
+        <div class="screen active" id="introScreen"><div class="intro">
+            <div class="intro-badge glass-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span>90 Second Assessment</span></div>
+            <h1 class="intro-title"><span class="line">Test Your</span><span class="line gradient">Communication</span><span class="line gradient">Reflexes</span></h1>
+            <p class="intro-desc">15 high-pressure scenarios. All answers sound right. Only one truly is. Can you spot the difference?</p>
+            <div class="stat-card glass"><div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="stat-text"><strong>38%</strong> of professionals freeze when put on the spot. Most never realize why.</div></div>
+            <div class="dims-section"><div class="dims-label">Scored across 5 dimensions</div><div class="dims-grid"><span class="dim-chip glass-subtle">Vocal Delivery</span><span class="dim-chip glass-subtle">Conversational Dynamics</span><span class="dim-chip glass-subtle">Social Presence</span><span class="dim-chip glass-subtle">Strategic Intent</span><span class="dim-chip glass-subtle">Assertiveness</span></div></div>
+            <button class="btn btn-primary btn-full" onclick="startGame()">Start Assessment<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+        </div></div>
+        
+        <div class="screen" id="gameScreen">
+            <div class="game-header"><div class="progress-info"><span class="progress-label">Question <span id="qNum">1</span> of 15</span></div><div class="progress-track"><div class="progress-fill" id="progFill" style="width:6.67%"></div></div></div>
+            <div class="timer-section glass"><div class="timer-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div class="timer-bar-wrap"><div class="timer-bar"><div class="timer-fill" id="timerFill"></div></div></div><span class="timer-text" id="timerText">12s</span></div>
+            <div class="scenario-section glass-card"><div class="scenario-ctx"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span id="ctxLabel">MEETING</span></div><div class="scenario-text" id="scenarioText">Loading...</div></div>
+            <div class="answers-wrap" id="answersWrap"></div>
+            <div class="custom-section"><button class="custom-toggle" id="customToggle" onclick="toggleCustom()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Write your own response</button><div class="custom-form" id="customForm"><textarea class="custom-textarea" id="customText" placeholder="What would you actually say?"></textarea><button class="custom-submit" onclick="submitCustom()">Submit & See Best</button></div></div>
+        </div>
+        
+        <div class="screen" id="interScreen"><div class="inter">
+            <div class="inter-badge glass-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span id="interBadgeText">Research</span></div>
+            <div class="inter-stat" id="interStat">$1.2T</div><div class="inter-head" id="interHead">Poor communication costs businesses $1.2 trillion annually.</div><div class="inter-body" id="interBody">Most stems from avoidable misunderstandings.</div>
+            <div class="inter-chart glass" id="interChart"><div id="barChart"></div></div>
+            <button class="btn btn-primary" onclick="continueFromInter()">Continue<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+        </div></div>
+        
+        <div class="screen" id="resultsScreen"><div class="results">
+            <div class="results-head"><div class="score-ring"><svg width="170" height="170" viewBox="0 0 170 170"><defs><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1d4ed8"/><stop offset="100%" stop-color="#60a5fa"/></linearGradient></defs><circle class="ring-bg" cx="85" cy="85" r="70"/><circle class="ring-fill" id="ringFill" cx="85" cy="85" r="70"/></svg><div class="score-center"><div class="score-num" id="finalScore">0</div><div class="score-of">/ 1000</div></div></div><div class="score-tier" id="scoreTier">Calculating...</div><div class="score-desc" id="scoreDesc">Analyzing...</div></div>
+            
+            <div class="skills-section glass-card"><div class="skills-label">Communication Dimensions</div><div class="skill-row"><span class="skill-name">Vocal Delivery</span><div class="skill-track"><div class="skill-fill" id="vocalFill"></div></div><span class="skill-val" id="vocalVal">0%</span></div><div class="skill-row"><span class="skill-name">Conv. Dynamics</span><div class="skill-track"><div class="skill-fill" id="convFill"></div></div><span class="skill-val" id="convVal">0%</span></div><div class="skill-row"><span class="skill-name">Social Presence</span><div class="skill-track"><div class="skill-fill" id="socialFill"></div></div><span class="skill-val" id="socialVal">0%</span></div><div class="skill-row"><span class="skill-name">Strategic Intent</span><div class="skill-track"><div class="skill-fill" id="stratFill"></div></div><span class="skill-val" id="stratVal">0%</span></div><div class="skill-row"><span class="skill-name">Assertiveness</span><div class="skill-track"><div class="skill-fill" id="assertFill"></div></div><span class="skill-val" id="assertVal">0%</span></div></div>
+            
+            <div class="insight-section"><div class="insight-head"><div class="insight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div><span class="insight-label" id="insightLabel">Your Growth Edge</span></div><p class="insight-text" id="insightText">Analyzing...</p></div>
+            
+            <!-- PRICING SECTION -->
+            <div class="pricing-section">
+                <div class="pricing-header">
+                    <div class="pricing-title">Train Your Communication Reflexes</div>
+                    <div class="pricing-sub">Turn your weak spots into strengths with AI coaching</div>
+                </div>
+                <div class="pricing-cards">
+                    <!-- Starter Plan -->
+                    <div class="plan-card glass-card">
+                        <div class="plan-name">Starter</div>
+                        <div class="plan-tagline">Build sharper reflexes. Start now.</div>
+                        <div class="plan-price"><span class="plan-amount">$12.99</span><span class="plan-period">/ month</span></div>
+                        <ul class="plan-features">
+                            <li>15 min/day AI voice practice</li>
+                            <li>Core scenarios: negotiation, conflict, advocacy</li>
+                            <li>Post-session feedback on clarity & impact</li>
+                            <li>Daily goals and streak system</li>
+                            <li>Basic Communication Debt tracker</li>
+                        </ul>
+                        <button class="plan-btn plan-btn-secondary" onclick="selectPlan('Starter')">Start Training<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                    </div>
+                    
+                    <!-- Pro Plan -->
+                    <div class="plan-card glass-card featured">
+                        <div class="plan-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Fastest Results</div>
+                        <div class="plan-name" style="margin-top:8px">Pro</div>
+                        <div class="plan-tagline">Master every scenario. No hesitation.</div>
+                        <div class="plan-price"><span class="plan-amount">$17.99</span><span class="plan-period">/ month</span></div>
+                        <ul class="plan-features">
+                            <li>Everything in Starter</li>
+                            <li>30 min/day AI voice — 2× the practice</li>
+                            <li>All scenarios: salary, leadership, conflict repair</li>
+                            <li>Live adaptive coaching mid-conversation</li>
+                            <li>Full Communication Debt dashboard</li>
+                            <li>Deep analytics: EQ, clarity, persuasion</li>
+                            <li>10 premium coaching avatars + multilingual</li>
+                        </ul>
+                        <button class="plan-btn plan-btn-primary" onclick="selectPlan('Pro')">Go Pro<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="share-section">
+                <button class="share-btn-link" onclick="shareResults()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Share My Score</button>
+                <div class="footer-links"><a href="https://conversly.io/" target="_blank" class="footer-link">conversly.io</a><a href="https://links.conversly.io/" target="_blank" class="footer-link">links.conversly.io</a></div>
+            </div>
+        </div></div>
+    </div>
+<script>
+const scenarios=[
+{ctx:"TEAM MEETING",text:"Your manager asks: <b>\"Does anyone have thoughts on the new timeline?\"</b> You have concerns but no one else is speaking.",answers:[
+{text:"\"The testing window looks compressed. Might be worth a quick sanity check.\"",pts:84,tier:"best",sk:{v:85,c:86,s:82,st:84,a:86}},
+{text:"\"I'd feel better seeing the dependency map before we commit.\"",pts:78,tier:"good",sk:{v:80,c:82,s:76,st:86,a:74}},
+{text:"\"It looks achievable. I can flag risks as we go.\"",pts:74,tier:"ok",sk:{v:76,c:74,s:78,st:72,a:70}},
+{text:"\"Can I review the breakdown and circle back this afternoon?\"",pts:76,tier:"ok",sk:{v:74,c:76,s:74,st:78,a:72}}
+],time:12},
+{ctx:"INTERVIEW",text:"The interviewer asks: <b>\"What's your biggest weakness?\"</b>",answers:[
+{text:"\"I can spend too long researching before I act. I've started setting decision deadlines.\"",pts:82,tier:"good",sk:{v:84,c:82,s:80,st:84,a:78}},
+{text:"\"I sometimes say yes too quickly. I'm learning to protect my calendar better.\"",pts:84,tier:"best",sk:{v:86,c:84,s:82,st:82,a:88}},
+{text:"\"Delegating has been a growth area. I've been practicing letting go of details.\"",pts:78,tier:"good",sk:{v:80,c:78,s:78,st:80,a:76}},
+{text:"\"I used to struggle with difficult feedback. Now I ask for it proactively.\"",pts:80,tier:"good",sk:{v:82,c:80,s:76,st:82,a:80}}
+],time:12},
+{ctx:"NETWORKING",text:"At a conference, someone asks: <b>\"So what do you do?\"</b>",answers:[
+{text:"\"I help teams ship faster by cutting through process bloat. You?\"",pts:82,tier:"good",sk:{v:84,c:86,s:84,st:80,a:78}},
+{text:"\"Product lead at a fintech startup. Working on payments. What brings you here?\"",pts:84,tier:"best",sk:{v:86,c:88,s:86,st:82,a:80}},
+{text:"\"I'm in product, focused on growth right now. How about you?\"",pts:78,tier:"good",sk:{v:80,c:82,s:80,st:76,a:76}},
+{text:"\"I build products that make complex things feel simple. What's your area?\"",pts:80,tier:"good",sk:{v:82,c:84,s:82,st:78,a:78}}
+],time:12},
+{ctx:"SLACK",text:"A colleague asks you to \"quickly help\" with something that would take 2+ hours. You're already behind on deadlines.",answers:[
+{text:"\"I'm jammed until Thursday. Let's find 30 min then?\"",pts:84,tier:"best",sk:{v:82,c:86,s:78,st:88,a:90}},
+{text:"\"What's the deadline? I might be able to shuffle things around.\"",pts:76,tier:"ok",sk:{v:76,c:80,s:80,st:74,a:70}},
+{text:"\"I can do a quick 15-min kickoff now, then pick it up Thursday properly.\"",pts:82,tier:"good",sk:{v:80,c:84,s:76,st:86,a:84}},
+{text:"\"Happy to help. Can you send the context and I'll slot it in?\"",pts:74,tier:"ok",sk:{v:74,c:76,s:78,st:70,a:66}}
+],time:12},
+{ctx:"VIDEO CALL",text:"Your internet cuts out mid-presentation. When you reconnect, everyone is staring at you silently.",answers:[
+{text:"\"Apologies for the drop. Let me recap the key point and continue.\"",pts:82,tier:"good",sk:{v:84,c:82,s:86,st:80,a:78}},
+{text:"\"Back now. Where did I lose you? I'll pick up from there.\"",pts:80,tier:"good",sk:{v:80,c:84,s:82,st:78,a:76}},
+{text:"\"Tech hiccup. Did my last point land, or should I repeat it?\"",pts:84,tier:"best",sk:{v:86,c:86,s:88,st:82,a:80}},
+{text:"\"Sorry about that. Resuming from the timeline slide.\"",pts:78,tier:"good",sk:{v:80,c:78,s:80,st:76,a:76}}
+],time:10},
+{ctx:"NEGOTIATION",text:"HR offers $85K. You want $95K. They say: <b>\"This is our standard offer.\"</b>",answers:[
+{text:"\"I was hoping for $95K based on market rates. Is there room to close that gap?\"",pts:82,tier:"good",sk:{v:84,c:80,s:78,st:86,a:88}},
+{text:"\"I understand. Is there flexibility in sign-on or equity to bridge the difference?\"",pts:80,tier:"good",sk:{v:80,c:84,s:80,st:84,a:82}},
+{text:"\"What would it take to reach $92K? I want to make this work.\"",pts:84,tier:"best",sk:{v:84,c:86,s:80,st:86,a:88}},
+{text:"\"I appreciate that. Can we revisit compensation at the 6-month mark?\"",pts:76,tier:"ok",sk:{v:76,c:78,s:78,st:78,a:68}}
+],time:10},
+{ctx:"FEEDBACK",text:"Your direct report's work quality has dropped. They were previously strong. You need to address it.",answers:[
+{text:"\"I've noticed some changes in your recent work. Everything okay on your end?\"",pts:82,tier:"good",sk:{v:80,c:86,s:84,st:80,a:76}},
+{text:"\"Let's talk about the last few deliverables. I want to help you get back on track.\"",pts:84,tier:"best",sk:{v:82,c:88,s:82,st:84,a:80}},
+{text:"\"The recent output hasn't matched your usual standard. What's going on?\"",pts:78,tier:"good",sk:{v:80,c:78,s:74,st:82,a:84}},
+{text:"\"I want to support you. Can we dig into what's blocking you lately?\"",pts:80,tier:"good",sk:{v:78,c:84,s:82,st:78,a:74}}
+],time:10},
+{ctx:"PUSHBACK",text:"A senior stakeholder dismisses your proposal: <b>\"We tried something similar before. It didn't work.\"</b>",answers:[
+{text:"\"Can you walk me through what happened? I'd like to learn from it.\"",pts:84,tier:"best",sk:{v:82,c:88,s:84,st:86,a:78}},
+{text:"\"What were the main blockers last time? Some conditions have changed.\"",pts:82,tier:"good",sk:{v:80,c:86,s:80,st:88,a:76}},
+{text:"\"I'd love to understand the context. Where did it break down?\"",pts:80,tier:"good",sk:{v:78,c:84,s:82,st:84,a:74}},
+{text:"\"Fair point. What would need to be different for it to work now?\"",pts:78,tier:"good",sk:{v:78,c:82,s:78,st:82,a:80}}
+],time:10},
+{ctx:"Q&A",text:"After your presentation, someone asks a specific question you genuinely don't know the answer to.",answers:[
+{text:"\"I don't have that data on hand. I'll follow up by end of day.\"",pts:84,tier:"best",sk:{v:86,c:82,s:88,st:84,a:80}},
+{text:"\"Great question. Let me verify and get back to you within the hour.\"",pts:80,tier:"good",sk:{v:80,c:82,s:84,st:80,a:76}},
+{text:"\"That's outside my area, but I can connect you with someone who knows.\"",pts:76,tier:"ok",sk:{v:76,c:78,s:78,st:76,a:72}},
+{text:"\"I want to give you an accurate answer. Can I email you shortly?\"",pts:82,tier:"good",sk:{v:84,c:84,s:86,st:82,a:78}}
+],time:10},
+{ctx:"CREDIT",text:"A colleague presents your idea as their own. Your manager looks impressed. The room is watching.",answers:[
+{text:"\"Building on that, when I first drafted this, I had a few additional considerations.\"",pts:84,tier:"best",sk:{v:82,c:86,s:88,st:86,a:82}},
+{text:"\"Great to see this gaining traction. Let me add the implementation details I mapped.\"",pts:82,tier:"good",sk:{v:80,c:84,s:84,st:84,a:80}},
+{text:"\"To add context, here's what I was thinking when I proposed it originally.\"",pts:80,tier:"good",sk:{v:78,c:82,s:82,st:82,a:78}},
+{text:"\"I'm glad this resonates. I can share the full analysis I put together.\"",pts:78,tier:"good",sk:{v:76,c:80,s:80,st:80,a:76}}
+],time:10},
+{ctx:"EXECUTIVE",text:"The CEO asks: <b>\"Is this the right strategy?\"</b> You have one significant concern, but everyone else has already agreed.",answers:[
+{text:"\"I'm aligned overall, with one caveat on the timeline assumptions worth stress-testing.\"",pts:84,tier:"best",sk:{v:84,c:84,s:82,st:90,a:88}},
+{text:"\"The direction is right. I'd want to validate one dependency before full commitment.\"",pts:82,tier:"good",sk:{v:82,c:82,s:80,st:88,a:84}},
+{text:"\"I support it. Flagging one risk around capacity that we should monitor.\"",pts:80,tier:"good",sk:{v:80,c:80,s:78,st:86,a:82}},
+{text:"\"Solid strategy. The execution details will be critical to get right.\"",pts:76,tier:"ok",sk:{v:78,c:76,s:80,st:78,a:72}}
+],time:8},
+{ctx:"CONFLICT",text:"Two team members are in a heated disagreement during a meeting. Both look to you as the tie-breaker.",answers:[
+{text:"\"What outcome are we actually optimizing for here? Let's start there.\"",pts:84,tier:"best",sk:{v:82,c:90,s:86,st:88,a:82}},
+{text:"\"Let's step back. What does success look like for each approach?\"",pts:82,tier:"good",sk:{v:80,c:88,s:84,st:86,a:80}},
+{text:"\"Both have merit. Can we test one approach and revisit with data?\"",pts:78,tier:"good",sk:{v:78,c:82,s:80,st:80,a:74}},
+{text:"\"I hear both sides. What's the fastest way to validate which works?\"",pts:80,tier:"good",sk:{v:80,c:84,s:82,st:84,a:78}}
+],time:8},
+{ctx:"CRISIS",text:"A major client calls, furious about a mistake your team made. They're threatening to cancel the contract.",answers:[
+{text:"\"I take full responsibility. Here's what I'm doing to fix it immediately.\"",pts:86,tier:"best",sk:{v:88,c:86,s:88,st:90,a:88}},
+{text:"\"I understand your frustration completely. Let me make this right today.\"",pts:82,tier:"good",sk:{v:84,c:84,s:86,st:84,a:80}},
+{text:"\"This is on us. I'm escalating now and will have a resolution by EOD.\"",pts:80,tier:"good",sk:{v:80,c:82,s:82,st:82,a:78}},
+{text:"\"I hear you. I'm personally taking over to ensure this gets resolved.\"",pts:84,tier:"good",sk:{v:86,c:84,s:86,st:86,a:84}}
+],time:8},
+{ctx:"BOUNDARY",text:"Your manager asks you to take a third high-priority project. You're already stretched thin on the first two.",answers:[
+{text:"\"I can take this on. Which of the other two should I deprioritize?\"",pts:86,tier:"best",sk:{v:84,c:88,s:80,st:92,a:94}},
+{text:"\"I want to deliver quality. What would you move off my plate to make room?\"",pts:84,tier:"good",sk:{v:82,c:86,s:78,st:90,a:90}},
+{text:"\"Happy to help. What's the flexibility on timeline for this one?\"",pts:76,tier:"ok",sk:{v:78,c:78,s:80,st:74,a:68}},
+{text:"\"I'll need to restructure my workload. Can we discuss priorities?\"",pts:80,tier:"good",sk:{v:80,c:82,s:78,st:86,a:84}}
+],time:8},
+{ctx:"PITCH",text:"Mid-pitch, an investor interrupts: <b>\"Your competitor just raised $50M. Why should we bet on you instead?\"</b>",answers:[
+{text:"\"That validates the market. Our edge is in unit economics. Let me show you.\"",pts:84,tier:"best",sk:{v:86,c:84,s:88,st:88,a:84}},
+{text:"\"Competition confirms demand. Here's why our approach wins long-term.\"",pts:82,tier:"good",sk:{v:84,c:82,s:86,st:86,a:82}},
+{text:"\"Different playbook. We're capital-efficient and already profitable.\"",pts:80,tier:"good",sk:{v:82,c:80,s:84,st:84,a:84}},
+{text:"\"Great question. Our retention numbers tell a different story. Look.\"",pts:82,tier:"good",sk:{v:84,c:82,s:86,st:84,a:80}}
+],time:8}
+];
+
+const interstitials=[{badge:"Hidden Cost",stat:"$1.2T",head:"Poor communication costs businesses $1.2 trillion annually.",body:"Most stems from avoidable misunderstandings.",chart:[{l:"Lost productivity",v:72,c:"blue"},{l:"Employee turnover",v:58,c:"blue"},{l:"Failed projects",v:45,c:"amber"}]},{badge:"Silence Problem",stat:"70%",head:"70% of employees avoid difficult conversations.",body:"Each avoided conversation costs an average of $7,500.",chart:[{l:"Avoid feedback",v:68,c:"blue"},{l:"Avoid conflict",v:57,c:"blue"},{l:"Avoid asking",v:52,c:"amber"}]},{badge:"Career Impact",stat:"10%",head:"Fear of speaking up reduces wages by 10%.",body:"Communication is the highest-leverage career skill.",chart:[{l:"Confident speakers",v:85,c:"blue"},{l:"Average speakers",v:52,c:"amber"},{l:"Avoidant speakers",v:28,c:"amber"}]}];
+const insights={vocal:{low:"Your delivery may lack conviction. Practice stating your point in one clear sentence.",high:"Your delivery projects confidence and clarity."},conv:{low:"Work on reading conversations and adapting. Practice active listening.",high:"You navigate dialogue with natural skill."},social:{low:"Your presence may feel tentative. Ground yourself before speaking.",high:"You command attention naturally."},strat:{low:"Think strategically: what outcome do you want? Plan before responding.",high:"You think ahead. Every word serves a purpose."},assert:{low:"Practice advocating for yourself while respecting others.",high:"You hold your ground while staying collaborative."}};
+const tiers=[{min:800,name:"Elite Communicator",desc:"Top 5%. Sharp under pressure."},{min:650,name:"Strong Communicator",desc:"Solid instincts with room to grow."},{min:500,name:"Developing",desc:"Good foundation. Keep practicing."},{min:0,name:"Building",desc:"Awareness is the first step."}];
+
+let q=0,score=0,streak=0,maxStreak=0,interIdx=0,locked=false,timer=null,timeLeft=0,skills={v:[],c:[],s:[],st:[],a:[]};
+const $=id=>document.getElementById(id);
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active');}
+function startGame(){q=0;score=0;streak=0;maxStreak=0;interIdx=0;skills={v:[],c:[],s:[],st:[],a:[]};$('topScore').style.display='flex';$('topPts').textContent='0';showScreen('gameScreen');loadQ();}
+function loadQ(){if(q>=scenarios.length){showResults();return;}if((q===5||q===10)&&interIdx<interstitials.length){showInter();return;}locked=false;const s=scenarios[q];$('qNum').textContent=q+1;$('progFill').style.width=`${((q+1)/15)*100}%`;$('ctxLabel').textContent=s.ctx;$('scenarioText').innerHTML=s.text;const wrap=$('answersWrap');wrap.innerHTML='';const letters=['A','B','C','D'];const shuffled=[...s.answers].sort(()=>Math.random()-0.5);shuffled.forEach((a,i)=>{const btn=document.createElement('button');btn.className='answer';btn.type='button';btn.dataset.pts=a.pts;btn.dataset.tier=a.tier;btn.innerHTML=`<span class="answer-letter">${letters[i]}</span><span class="answer-content"><span class="answer-text">${a.text}</span><span class="answer-pts">+${a.pts} pts</span></span>`;btn._data=a;wrap.appendChild(btn);});wrap.onclick=e=>{const btn=e.target.closest('.answer');if(btn&&!btn.classList.contains('locked')&&btn._data)pick(btn,btn._data);};$('customToggle').style.display='flex';$('customForm').classList.remove('show');$('customText').value='';startTimer(s.time);}
+function startTimer(sec){clearInterval(timer);timeLeft=sec;const fill=$('timerFill');fill.style.width='100%';fill.className='timer-fill';$('timerText').textContent=sec+'s';timer=setInterval(()=>{timeLeft-=0.1;const pct=(timeLeft/sec)*100;fill.style.width=`${pct}%`;$('timerText').textContent=Math.ceil(timeLeft)+'s';if(pct<=20)fill.className='timer-fill danger';else if(pct<=40)fill.className='timer-fill warn';if(timeLeft<=0){clearInterval(timer);if(!locked)timeout();}},100);}
+function timeout(){locked=true;revealAll();streak=0;updateStreak();['v','c','s','st','a'].forEach(k=>skills[k].push(0));showFeedback('weak',0,"Time's Up");setTimeout(()=>{q++;loadQ();},2000);}
+function pick(btn,ans){if(locked)return;locked=true;clearInterval(timer);btn.classList.add('selected');revealAll();score+=ans.pts;$('topPts').textContent=score;if(ans.pts>=80){streak++;if(streak>maxStreak)maxStreak=streak;}else{streak=0;}updateStreak();skills.v.push(ans.sk.v);skills.c.push(ans.sk.c);skills.s.push(ans.sk.s);skills.st.push(ans.sk.st);skills.a.push(ans.sk.a);const label=ans.pts>=84?'Excellent':ans.pts>=80?'Good':ans.pts>=76?'Okay':'Weak';const cls=ans.pts>=84?'excellent':ans.pts>=80?'good':ans.pts>=76?'ok':'weak';showFeedback(cls,ans.pts,label);setTimeout(()=>{q++;loadQ();},2000);}
+function revealAll(){document.querySelectorAll('.answer').forEach(btn=>{btn.classList.add('revealed','locked',btn.dataset.tier);});$('customToggle').style.display='none';$('customForm').classList.remove('show');}
+function toggleCustom(){$('customToggle').style.display='none';$('customForm').classList.add('show');$('customText').focus();}
+function submitCustom(){if(locked)return;locked=true;clearInterval(timer);revealAll();const best=scenarios[q].answers.reduce((a,b)=>a.pts>b.pts?a:b);const pts=Math.floor(best.pts*0.7);score+=pts;$('topPts').textContent=score;['v','c','s','st','a'].forEach(k=>skills[k].push(best.sk[k]*0.7));showFeedback('ok',pts,'Self-Assessed');setTimeout(()=>{q++;loadQ();},2500);}
+function updateStreak(){const el=$('streak');if(streak>=2){$('streakNum').textContent=streak;el.classList.add('show');}else{el.classList.remove('show');}}
+function showFeedback(cls,pts,label){const icons={excellent:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>',good:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>',ok:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/></svg>',weak:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>'};$('fbIcon').className=`fb-icon ${cls}`;$('fbIcon').innerHTML=icons[cls]||icons.ok;$('fbTitle').className=`fb-title ${cls}`;$('fbTitle').textContent=label;$('fbPts').textContent=`+${pts}`;$('fbSub').textContent=cls==='excellent'?'Outstanding':cls==='good'?'Solid choice':cls==='ok'?'Room to improve':'Keep practicing';$('fbBg').classList.add('show');$('fbModal').classList.add('show');setTimeout(()=>{$('fbBg').classList.remove('show');$('fbModal').classList.remove('show');},1800);}
+function showInter(){const d=interstitials[interIdx];$('interBadgeText').textContent=d.badge;$('interStat').textContent=d.stat;$('interHead').textContent=d.head;$('interBody').textContent=d.body;const chart=$('barChart');chart.innerHTML='';d.chart.forEach((item,i)=>{const row=document.createElement('div');row.className='bar-row';row.innerHTML=`<span class="bar-label">${item.l}</span><div class="bar-track"><div class="bar-fill ${item.c}" style="width:0%"></div><span class="bar-val">${item.v}%</span></div>`;chart.appendChild(row);setTimeout(()=>row.querySelector('.bar-fill').style.width=`${item.v}%`,100+i*200);});interIdx++;showScreen('interScreen');}
+function continueFromInter(){showScreen('gameScreen');loadQ();}
+function showResults(){showScreen('resultsScreen');const final={};const map={v:'vocal',c:'conv',s:'social',st:'strat',a:'assert'};Object.keys(skills).forEach(k=>{const arr=skills[k];final[k]=arr.length?Math.round(arr.reduce((a,b)=>a+b,0)/arr.length):0;});const avg=Object.values(final).reduce((a,b)=>a+b,0)/5;const normalized=Math.round((score/1260)*500+avg*5);const finalScore=Math.min(1000,Math.max(0,normalized));setTimeout(()=>{$('ringFill').style.strokeDashoffset=440-(finalScore/1000)*440;},200);animNum($('finalScore'),0,finalScore,1500);const tier=tiers.find(t=>finalScore>=t.min);setTimeout(()=>{$('scoreTier').textContent=tier.name;$('scoreDesc').textContent=tier.desc;},1600);setTimeout(()=>{Object.keys(final).forEach(k=>{const v=final[k];const fill=$(`${map[k]}Fill`);const val=$(`${map[k]}Val`);fill.style.width=`${v}%`;fill.className=`skill-fill ${v>=75?'high':v>=55?'mid':'low'}`;val.textContent=`${v}%`;});},600);const weakest=Object.entries(final).sort((a,b)=>a[1]-b[1])[0];const strongest=Object.entries(final).sort((a,b)=>b[1]-a[1])[0];const names={v:'Vocal Delivery',c:'Conv. Dynamics',s:'Social Presence',st:'Strategic Intent',a:'Assertiveness'};const insightMap={v:'vocal',c:'conv',s:'social',st:'strat',a:'assert'};setTimeout(()=>{if(weakest[1]<60){$('insightLabel').textContent=`Focus: ${names[weakest[0]]}`;$('insightText').textContent=insights[insightMap[weakest[0]]].low;}else{$('insightLabel').textContent=`Strength: ${names[strongest[0]]}`;$('insightText').textContent=insights[insightMap[strongest[0]]].high;}},2200);window.gameResults={score:finalScore,tier:tier.name,skills:final,maxStreak};}
+function animNum(el,start,end,dur){const t0=performance.now();function tick(now){const p=Math.min((now-t0)/dur,1);el.textContent=Math.round(start+(end-start)*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(tick);}requestAnimationFrame(tick);}
+function shareResults(){const r=window.gameResults;const text=`I scored ${r.score}/1000 on the Conversly Communication Reflex Report (${r.tier})!\n\nTest yours: ${location.href}`;if(navigator.share)navigator.share({title:'My Communication Score',text,url:location.href}).catch(()=>{});else navigator.clipboard.writeText(text).then(()=>alert('Copied!')).catch(()=>alert(text));}
+
+// Store Modal Functions
+function selectPlan(planName){
+    $('storeModalPlan').textContent=planName+' Plan Selected';
+    $('storeModalBg').classList.add('show');
+    $('storeModal').classList.add('show');
+}
+function closeStoreModal(){
+    $('storeModalBg').classList.remove('show');
+    $('storeModal').classList.remove('show');
+}
+</script>
+</body>
+</html>
