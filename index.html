@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>Communication Reflex Report | Conversly</title>
+    <meta name="description" content="Test your communication reflexes in 90 seconds. Face 15 high-pressure scenarios, get scored across 5 dimensions, and discover your strengths and growth areas.">
+    <link rel="icon" type="image/png" href="https://image2url.com/r2/default/images/1775752398149-f1b1a59d-4c6c-4fc0-ba59-0cebe27a73ca.png">
+    <meta property="og:title" content="Communication Reflex Report | Conversly">
+    <meta property="og:description" content="Test your communication reflexes in 90 seconds. Face 15 high-pressure scenarios and discover your strengths.">
+    <meta property="og:image" content="https://image2url.com/r2/default/images/1775752278024-8616a4ce-8371-4d88-bb5f-b40d6db1c6a1.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Communication Reflex Report | Conversly">
+    <meta name="twitter:description" content="Test your communication reflexes in 90 seconds. Face 15 high-pressure scenarios and discover your strengths.">
+    <meta name="twitter:image" content="https://image2url.com/r2/default/images/1775752278024-8616a4ce-8371-4d88-bb5f-b40d6db1c6a1.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet">
@@ -283,6 +293,108 @@
         .footer-link:hover{color:var(--text-50)}
 
         @media(max-width:400px){.skill-name{width:85px;font-size:10px}}
+
+        /* Mobile optimization - fit all screens without scrolling */
+        @media(max-height:750px){
+            .app{padding:10px}
+            .topbar{padding:10px 16px;margin-bottom:12px}
+            .intro{padding:0}
+            .intro-badge{padding:8px 14px;margin-bottom:16px}
+            .intro-title{font-size:clamp(28px,8vw,42px);margin-bottom:14px}
+            .intro-desc{font-size:13px;margin-bottom:18px;line-height:1.5}
+            .stat-card{padding:12px 16px;margin-bottom:18px}
+            .stat-icon{width:38px;height:38px}
+            .stat-icon svg{width:18px;height:18px}
+            .stat-text{font-size:12px}
+            .dims-section{margin-bottom:20px}
+            .dims-label{margin-bottom:10px}
+            .dims-grid{gap:6px}
+            .dim-chip{padding:7px 11px;font-size:10px}
+            .btn{padding:14px 24px;font-size:13px}
+            .timer-section{padding:10px 14px;margin-bottom:12px}
+            .scenario-section{padding:16px;margin-bottom:12px}
+            .scenario-ctx{padding:7px 12px;margin-bottom:12px}
+            .scenario-text{font-size:13px;line-height:1.55}
+            .answer{padding:12px 14px;gap:10px}
+            .answer-letter{width:26px;height:26px;font-size:10px}
+            .answer-text{font-size:12px;line-height:1.5}
+            .answers-wrap{gap:8px}
+            .custom-section{margin-top:8px}
+            .custom-toggle{padding:12px;font-size:11px}
+            .inter{padding:15px 0}
+            .inter-badge{padding:8px 14px;margin-bottom:20px}
+            .inter-stat{font-size:clamp(42px,12vw,60px);margin-bottom:10px}
+            .inter-head{font-size:15px;margin-bottom:8px}
+            .inter-body{font-size:12px;margin-bottom:20px}
+            .inter-chart{padding:16px;margin-bottom:20px}
+            .bar-row{margin-bottom:10px;gap:10px}
+            .bar-label{width:75px;font-size:9px}
+            .bar-track{height:16px}
+            .results{padding:10px 0}
+            .results-head{margin-bottom:18px}
+            .score-ring{width:130px;height:130px;margin-bottom:16px}
+            .ring-bg,.ring-fill{stroke-width:7}
+            .score-num{font-size:34px}
+            .score-tier{font-size:15px}
+            .score-desc{font-size:12px}
+            .skills-section{padding:16px;margin-bottom:14px}
+            .skills-label{margin-bottom:14px}
+            .skill-row{gap:10px;margin-bottom:10px}
+            .skill-name{width:80px;font-size:10px}
+            .skill-track{height:6px}
+            .skill-val{font-size:11px}
+            .insight-section{padding:16px;margin-bottom:14px}
+            .insight-head{margin-bottom:10px;gap:10px}
+            .insight-icon{width:34px;height:34px}
+            .insight-icon svg{width:16px;height:16px}
+            .insight-label{font-size:13px}
+            .insight-text{font-size:12px;line-height:1.5}
+            .pricing-section{padding:16px 0;margin-bottom:14px}
+            .pricing-header{margin-bottom:18px}
+            .pricing-title{font-size:17px;margin-bottom:6px}
+            .pricing-sub{font-size:12px}
+            .plan-card{padding:18px}
+            .plan-name{font-size:16px}
+            .plan-tagline{font-size:11px;margin-bottom:12px}
+            .plan-price{margin-bottom:14px}
+            .plan-amount{font-size:28px}
+            .plan-features{margin-bottom:18px}
+            .plan-features li{font-size:11px;margin-bottom:8px;gap:8px}
+            .plan-features li::before{width:14px;height:14px;background-size:8px}
+            .plan-btn{padding:12px 20px;font-size:13px}
+            .share-section{padding:14px 0}
+            .footer-links{padding-top:12px;gap:18px}
+        }
+
+        @media(max-height:680px){
+            .app{padding:8px}
+            .topbar{padding:8px 14px;margin-bottom:10px}
+            .intro-badge{padding:6px 12px;margin-bottom:12px}
+            .intro-title{font-size:clamp(24px,7vw,36px);margin-bottom:10px}
+            .intro-desc{font-size:12px;margin-bottom:14px}
+            .stat-card{padding:10px 14px;margin-bottom:14px}
+            .dims-section{margin-bottom:16px}
+            .dim-chip{padding:6px 10px;font-size:9px}
+            .btn{padding:12px 20px}
+            .scenario-section{padding:14px}
+            .answer{padding:10px 12px}
+            .results-head{margin-bottom:14px}
+            .score-ring{width:110px;height:110px;margin-bottom:12px}
+            .score-num{font-size:28px}
+            .skills-section{padding:14px;margin-bottom:12px}
+            .insight-section{padding:14px;margin-bottom:12px}
+            .pricing-cards{gap:12px}
+            .plan-card{padding:14px}
+        }
+
+        @media(max-height:600px){
+            .intro-title{font-size:clamp(22px,6vw,32px)}
+            .stat-card{display:none}
+            .inter-chart{padding:12px;margin-bottom:16px}
+            .score-ring{width:100px;height:100px;margin-bottom:10px}
+            .score-ring svg{width:100px;height:100px}
+            .score-num{font-size:24px}
+        }
     </style>
 </head>
 <body>
@@ -339,7 +451,7 @@
         </div></div>
         
         <div class="screen" id="resultsScreen"><div class="results">
-            <div class="results-head"><div class="score-ring"><svg width="170" height="170" viewBox="0 0 170 170"><defs><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1d4ed8"/><stop offset="100%" stop-color="#60a5fa"/></linearGradient></defs><circle class="ring-bg" cx="85" cy="85" r="70"/><circle class="ring-fill" id="ringFill" cx="85" cy="85" r="70"/></svg><div class="score-center"><div class="score-num" id="finalScore">0</div><div class="score-of">/ 1000</div></div></div><div class="score-tier" id="scoreTier">Calculating...</div><div class="score-desc" id="scoreDesc">Analyzing...</div></div>
+            <div class="results-head"><div class="score-ring"><svg width="100%" height="100%" viewBox="0 0 170 170"><defs><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1d4ed8"/><stop offset="100%" stop-color="#60a5fa"/></linearGradient></defs><circle class="ring-bg" cx="85" cy="85" r="70"/><circle class="ring-fill" id="ringFill" cx="85" cy="85" r="70"/></svg><div class="score-center"><div class="score-num" id="finalScore">0</div><div class="score-of">/ 1000</div></div></div><div class="score-tier" id="scoreTier">Calculating...</div><div class="score-desc" id="scoreDesc">Analyzing...</div></div>
             
             <div class="skills-section glass-card"><div class="skills-label">Communication Dimensions</div><div class="skill-row"><span class="skill-name">Vocal Delivery</span><div class="skill-track"><div class="skill-fill" id="vocalFill"></div></div><span class="skill-val" id="vocalVal">0%</span></div><div class="skill-row"><span class="skill-name">Conv. Dynamics</span><div class="skill-track"><div class="skill-fill" id="convFill"></div></div><span class="skill-val" id="convVal">0%</span></div><div class="skill-row"><span class="skill-name">Social Presence</span><div class="skill-track"><div class="skill-fill" id="socialFill"></div></div><span class="skill-val" id="socialVal">0%</span></div><div class="skill-row"><span class="skill-name">Strategic Intent</span><div class="skill-track"><div class="skill-fill" id="stratFill"></div></div><span class="skill-val" id="stratVal">0%</span></div><div class="skill-row"><span class="skill-name">Assertiveness</span><div class="skill-track"><div class="skill-fill" id="assertFill"></div></div><span class="skill-val" id="assertVal">0%</span></div></div>
             
